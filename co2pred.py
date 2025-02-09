@@ -113,9 +113,9 @@ def gety(dataloader):
 
 
 if __name__ == "__main__":
-    training_data = TextDataset('/Users/sissi/Downloads/table1_train.xlsx')
-    test_data = TextDataset('/Users/sissi/Downloads/table1_test.xlsx')
-    pred_data = TextDataset('/Users/sissi/Downloads/table1 copy.xlsx')
+    training_data = TextDataset('table1_train.xlsx')
+    test_data = TextDataset('table1_test.xlsx')
+    pred_data = TextDataset('table1_copy.xlsx')
 
 
     train_dataloader = DataLoader(training_data, batch_size=10, drop_last = False)
