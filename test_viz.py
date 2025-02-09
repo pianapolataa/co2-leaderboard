@@ -17,7 +17,7 @@ def calculate_mae(predictions, targets):
 maxi = 681
 mini = 2.4
 
-class TextDataset():
+class TextDataset(Dataset):
     def __init__(self, file_path):
         self.data = pd.read_excel(file_path, header = None)
         self.data = self.data.values  # Convert DataFrame to NumPy array before using PyTorch
@@ -104,6 +104,14 @@ def test(dataloader, model, loss_fn, record):
         all_preds = np.array(all_preds, dtype = np.float32)
         return all_preds
 
+def gety(dataloader):
+    all_y = []
+    with torch.no_grad():
+        for _, y in dataloader:
+            all_y.append(y.cpu().numpy())
+    all_y = np.concatenate(all_y, axis=0)
+    all_y = all_y * (maxi - mini) + mini
+    return all_y
 
 
 if __name__ == "__main__":
@@ -111,10 +119,11 @@ if __name__ == "__main__":
     test_data = TextDataset('table1_test.xlsx')
     pred_data = TextDataset('table1_copy.xlsx')
 
-
     train_dataloader = DataLoader(training_data, batch_size=10, drop_last = False)
-    test_dataloader = DataLoader(test_data, batch_size=10, drop_last = False)
+    test_dataloader = DataLoader(test_data, batch_size=11, drop_last = False)
     pred_dataloader = DataLoader(pred_data, batch_size=51, drop_last=False)
+
+    print(len(test_dataloader.dataset))
 
     epochs = 2000
     for t in range(epochs):
@@ -122,14 +131,20 @@ if __name__ == "__main__":
         if (t % 50 == 0): test(test_dataloader, model, loss_fn, False)
 
     
-    pred = test(pred_dataloader, model, loss_fn, True)
-    print(pred)
+    pred = test(test_dataloader, model, loss_fn, True)
+    actual = gety(test_dataloader)
 
 
-# Convert NumPy array to csv
-    pred = pd.DataFrame(pred)
-    pred.to_csv('output.csv', index=False, header=False)
-    
+    t = np.zeros(len(pred[2]))
+    for i in range(len(pred[2])):
+        t[i] = i
+    plt.ylim(45, 80)
+    plt.plot(t, pred[0], label = "predicted", linestyle="-.")
+    plt.plot(t, actual[0], label = "actual", linestyle="-")
+    plt.legend()
+    plt.show()
+
+
 
 
     print("Done!")
