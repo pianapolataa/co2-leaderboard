@@ -25,7 +25,7 @@ class TextDataset():
         self.data = (self.data - self.data.min()) / (self.data.max() - self.data.min())
         
         self.inputs = self.data[:, :-5]
-        self.outputs = self.data[:, -1:]
+        self.outputs = self.data[:, -5:]
 
     def __len__(self):
         return len(self.data)
@@ -45,7 +45,7 @@ class NeuralNetwork(nn.Module):
             nn.ReLU(),
             nn.Linear(64, 64),
             nn.ReLU(),
-            nn.Linear(64, 1)
+            nn.Linear(64, 5)
         )
 
     def forward(self, x):
@@ -56,7 +56,7 @@ model = NeuralNetwork().to(device)
 print(model)
 
 loss_fn = nn.MSELoss()
-optimizer = torch.optim.SGD(model.parameters(), lr=0.005)
+optimizer = torch.optim.SGD(model.parameters(), lr=0.007)
 
 def train(dataloader, model, loss_fn, optimizer):
     size = len(dataloader.dataset)
@@ -92,7 +92,7 @@ def test(dataloader, model, loss_fn, record):
             mae = calculate_mae(pred, y)
             total_mae += mae.item()
 
-            all_preds.append(pred.cpu().numpy().flatten())
+            all_preds.append(pred.cpu().numpy())
 
     test_loss /= num_batches
     total_mae /= num_batches 
@@ -122,7 +122,7 @@ if __name__ == "__main__":
     test_dataloader = DataLoader(test_data, batch_size=10, drop_last = False)
     pred_dataloader = DataLoader(pred_data, batch_size=51, drop_last=False)
 
-    epochs = 1000
+    epochs = 2000
     for t in range(epochs):
         train(train_dataloader, model, loss_fn, optimizer)
         if (t % 50 == 0): test(test_dataloader, model, loss_fn, False)
