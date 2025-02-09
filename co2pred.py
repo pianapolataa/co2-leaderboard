@@ -129,8 +129,5 @@ if __name__ == "__main__":
 # Convert NumPy array to csv
     pred = pd.DataFrame(pred)
     pred.to_csv('output.csv', index=False, header=False)
-    
-
-
-    print("Done!")
+    print("Finish!")
     
