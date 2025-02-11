@@ -26,7 +26,7 @@ CO2 Leaderboard is a full-stack application that tracks and visualizes carbon em
    ```
 2. Start the frontend:
    ```bash
-   npm start
+   npm run dev
    ```
 
 ## File Descriptions
