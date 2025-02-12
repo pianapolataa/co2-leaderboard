@@ -9,6 +9,12 @@ CO2 Leaderboard is a full-stack application that tracks and visualizes carbon em
 - **Machine Learning:** PyTorch for neural network-based predictions
 
 ## Installation & Setup
+
+## **Before running the project: **
+1. Open two files: first one should be the entire project, git clone the full thing
+2. Then open a new window and run the cetbackend file
+3. ```python app.py ```
+
 ### **Backend Setup**
 1. Install dependencies:
    ```bash
