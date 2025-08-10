@@ -1,7 +1,7 @@
 # CO2 Leaderboard
 
 ## Overview
-Devpost: https://devpost.com/software/co2-leaderboard
+Devpost: https://devpost.com/software/co2-leaderboard  
 CO2 Leaderboard is a full-stack application that tracks and visualizes carbon emissions across different states. It provides insights into historical trends, future predictions, and regional comparisons to monitor progress toward environmental goals.
 
 ## Tech Stack
